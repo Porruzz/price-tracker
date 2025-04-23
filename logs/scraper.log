@@ -148,3 +148,6 @@
 2025-04-22 19:59:25,813 - INFO - [\u2705] Alerta enviada por Telegram: Torre Cpu Gamer Athlon 3000g Vega 3 240sdd 8gb  Pc
 2025-04-22 19:59:25,816 - INFO - [DB] Tabla 'productos' verificada o creada exitosamente.
 2025-04-22 19:59:26,207 - INFO - [DB] Producto insertado: Torre Cpu Gamer Athlon 3000g Vega 3 240sdd 8gb  Pc
+2025-04-22 21:14:55,045 - INFO - [DB] Tabla 'productos' verificada o creada exitosamente.
+2025-04-22 21:14:55,229 - INFO - [DB] Producto insertado: Test Producto
+2025-04-22 21:14:55,231 - INFO - [DB] Tabla 'productos' verificada o creada exitosamente.
