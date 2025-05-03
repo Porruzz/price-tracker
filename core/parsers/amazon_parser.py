@@ -1,5 +1,3 @@
-# core/parsers/amazon_parser.py
-
 import re
 import time
 import random
@@ -22,8 +20,11 @@ def parse_amazon(html: str, url: str) -> dict:
 
     soup = BeautifulSoup(html, 'html.parser')
 
-    # === 1. Nombre del producto ===
-    nombre_tag = soup.select_one('span#productTitle')
+    # === 1. Nombre del producto (más robusto) ===
+    nombre_tag = soup.select_one('#productTitle') or \
+                 soup.select_one('span.a-size-large.product-title-word-break') or \
+                 soup.select_one('h1 span')
+
     nombre = nombre_tag.get_text(strip=True) if nombre_tag else "No disponible"
 
     if nombre == "No disponible":
