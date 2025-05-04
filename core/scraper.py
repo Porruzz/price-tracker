@@ -4,6 +4,7 @@ from drivers.amazon import get_amazon_html
 from drivers.mercadolibre import get_mercadolibre_html
 from core.parser import parse_amazon, parse_mercadolibre
 from core.alert import verificar_alerta
+from storage.db import insertar_producto  # <-- Se importa la función de guardado
 from utils.logger import log
 
 
@@ -15,7 +16,7 @@ def run_scraper(product: dict) -> dict:
     """
     url = product.get("url")
     fuente = product.get("fuente")
-    umbral = product.get("umbral", 999999)
+    umbral = product.get("umbral", 999999)  # Precio tope para alertas
 
     # Normalizar URL si empieza con 'www.'
     if url and url.startswith("www."):
@@ -26,7 +27,7 @@ def run_scraper(product: dict) -> dict:
         log("[ERROR] Faltan datos del producto: 'url' o 'fuente'")
         return None
 
-    # Selección de driver según la fuente
+    # === Selección del driver según la fuente ===
     if fuente.lower() == "amazon":
         html = get_amazon_html(url)
         if not html:
@@ -45,11 +46,15 @@ def run_scraper(product: dict) -> dict:
         log(f"[ERROR] Fuente no soportada: {fuente}")
         return None
 
-    # Validación de datos extraídos
+    # === Validación de los datos extraídos ===
     if not datos or not datos.get("nombre_producto") or datos.get("precio") is None:
         log("[ERROR] Datos incompletos o inválidos.")
         return None
 
-    # Verificar y enviar alerta si corresponde
+    # === Verificación de alertas ===
     verificar_alerta(datos, umbral)
+
+    # === Guardar automáticamente en la base de datos ===
+    insertar_producto(datos)
+
     return datos
